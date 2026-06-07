@@ -7,8 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$id     = (int)($_POST['id'] ?? 0);
-$accion = $_POST['accion'] ?? '';
+$id     = (int)(isset($_POST['id'])     ? $_POST['id']     : 0);
+$accion = isset($_POST['accion']) ? $_POST['accion'] : '';
 
 if ($id <= 0 || !in_array($accion, ['aprobar', 'rechazar'])) {
     header('Location: panel.php');
@@ -17,18 +17,18 @@ if ($id <= 0 || !in_array($accion, ['aprobar', 'rechazar'])) {
 
 $estado = ($accion === 'aprobar') ? 'aprobado' : 'rechazado';
 
-$stmt = mysqli_prepare($conexion, "UPDATE egresados SET estado = ? WHERE id = ? AND estado = 'pendiente'");
-mysqli_stmt_bind_param($stmt, 'si', $estado, $id);
-mysqli_stmt_execute($stmt);
-mysqli_stmt_close($stmt);
+$consulta = mysqli_prepare($conexion, "UPDATE egresados SET estado = ? WHERE id = ? AND estado = 'pendiente'");
+mysqli_stmt_bind_param($consulta, 'si', $estado, $id);
+mysqli_stmt_execute($consulta);
+mysqli_stmt_close($consulta);
 
 if ($accion === 'aprobar') {
-    $stmt2 = mysqli_prepare($conexion, "SELECT nombre, apellido, email FROM egresados WHERE id = ?");
-    mysqli_stmt_bind_param($stmt2, 'i', $id);
-    mysqli_stmt_execute($stmt2);
-    $resultado = mysqli_stmt_get_result($stmt2);
+    $consulta2 = mysqli_prepare($conexion, "SELECT nombre, apellido, email FROM egresados WHERE id = ?");
+    mysqli_stmt_bind_param($consulta2, 'i', $id);
+    mysqli_stmt_execute($consulta2);
+    $resultado = mysqli_stmt_get_result($consulta2);
     $egresado  = mysqli_fetch_assoc($resultado);
-    mysqli_stmt_close($stmt2);
+    mysqli_stmt_close($consulta2);
 
     if ($egresado) {
         $destinatario = $egresado['email'];

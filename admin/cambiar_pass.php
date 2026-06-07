@@ -6,32 +6,32 @@ $errores = [];
 $exito   = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $pass_actual   = $_POST['pass_actual'] ?? '';
-    $pass_nueva    = $_POST['pass_nueva'] ?? '';
-    $pass_confirm  = $_POST['pass_confirm'] ?? '';
+    $clave_actual       = isset($_POST['pass_actual'])  ? $_POST['pass_actual']  : '';
+    $clave_nueva        = isset($_POST['pass_nueva'])   ? $_POST['pass_nueva']   : '';
+    $clave_confirmacion = isset($_POST['pass_confirm']) ? $_POST['pass_confirm'] : '';
 
-    if ($pass_actual === '' || $pass_nueva === '' || $pass_confirm === '') {
+    if ($clave_actual === '' || $clave_nueva === '' || $clave_confirmacion === '') {
         $errores[] = "Todos los campos son obligatorios.";
-    } elseif ($pass_nueva !== $pass_confirm) {
+    } elseif ($clave_nueva !== $clave_confirmacion) {
         $errores[] = "La nueva contraseña y la confirmación no coinciden.";
-    } elseif (strlen($pass_nueva) < 6) {
+    } elseif (strlen($clave_nueva) < 6) {
         $errores[] = "La nueva contraseña debe tener al menos 6 caracteres.";
     } else {
-        $stmt = mysqli_prepare($conexion, "SELECT password FROM administradores WHERE id = ?");
-        mysqli_stmt_bind_param($stmt, 'i', $_SESSION['admin_id']);
-        mysqli_stmt_execute($stmt);
-        $res   = mysqli_stmt_get_result($stmt);
-        $admin = mysqli_fetch_assoc($res);
-        mysqli_stmt_close($stmt);
+        $consulta = mysqli_prepare($conexion, "SELECT password FROM administradores WHERE id = ?");
+        mysqli_stmt_bind_param($consulta, 'i', $_SESSION['admin_id']);
+        mysqli_stmt_execute($consulta);
+        $resultado = mysqli_stmt_get_result($consulta);
+        $admin     = mysqli_fetch_assoc($resultado);
+        mysqli_stmt_close($consulta);
 
-        if (!$admin || !password_verify($pass_actual, $admin['password'])) {
+        if (!$admin || !password_verify($clave_actual, $admin['password'])) {
             $errores[] = "La contraseña actual es incorrecta.";
         } else {
-            $nuevo_hash = password_hash($pass_nueva, PASSWORD_DEFAULT);
-            $stmt2 = mysqli_prepare($conexion, "UPDATE administradores SET password = ? WHERE id = ?");
-            mysqli_stmt_bind_param($stmt2, 'si', $nuevo_hash, $_SESSION['admin_id']);
-            mysqli_stmt_execute($stmt2);
-            mysqli_stmt_close($stmt2);
+            $nueva_clave = password_hash($clave_nueva, PASSWORD_DEFAULT);
+            $consulta2   = mysqli_prepare($conexion, "UPDATE administradores SET password = ? WHERE id = ?");
+            mysqli_stmt_bind_param($consulta2, 'si', $nueva_clave, $_SESSION['admin_id']);
+            mysqli_stmt_execute($consulta2);
+            mysqli_stmt_close($consulta2);
             $exito = true;
         }
     }
@@ -77,8 +77,8 @@ mysqli_close($conexion);
         <?php if (!empty($errores)): ?>
             <div class="errores">
                 <ul>
-                    <?php foreach ($errores as $e): ?>
-                        <li><?php echo htmlspecialchars($e); ?></li>
+                    <?php foreach ($errores as $mensaje): ?>
+                        <li><?php echo htmlspecialchars($mensaje); ?></li>
                     <?php endforeach; ?>
                 </ul>
             </div>

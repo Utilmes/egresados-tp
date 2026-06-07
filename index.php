@@ -15,12 +15,12 @@ $errores  = [];
 $exito    = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre       = trim($_POST['nombre'] ?? '');
-    $apellido     = trim($_POST['apellido'] ?? '');
-    $carrera      = trim($_POST['carrera'] ?? '');
-    $nro_matricula = trim($_POST['nro_matricula'] ?? '');
-    $email        = trim($_POST['email'] ?? '');
-    $telefono     = trim($_POST['telefono'] ?? '');
+    $nombre       = trim(isset($_POST['nombre'])       ? $_POST['nombre']       : '');
+    $apellido     = trim(isset($_POST['apellido'])     ? $_POST['apellido']     : '');
+    $carrera      = trim(isset($_POST['carrera'])      ? $_POST['carrera']      : '');
+    $nro_matricula = trim(isset($_POST['nro_matricula']) ? $_POST['nro_matricula'] : '');
+    $email        = trim(isset($_POST['email'])        ? $_POST['email']        : '');
+    $telefono     = trim(isset($_POST['telefono'])     ? $_POST['telefono']     : '');
 
     if ($nombre === '')        $errores[] = "El nombre es obligatorio.";
     if ($apellido === '')      $errores[] = "El apellido es obligatorio.";
@@ -96,34 +96,34 @@ mysqli_close($conexion);
 
             <label for="nombre">Nombre</label>
             <input type="text" id="nombre" name="nombre" required
-                   value="<?php echo htmlspecialchars($_POST['nombre'] ?? ''); ?>">
+                   value="<?php echo htmlspecialchars(isset($_POST['nombre']) ? $_POST['nombre'] : ''); ?>">
 
             <label for="apellido">Apellido</label>
             <input type="text" id="apellido" name="apellido" required
-                   value="<?php echo htmlspecialchars($_POST['apellido'] ?? ''); ?>">
+                   value="<?php echo htmlspecialchars(isset($_POST['apellido']) ? $_POST['apellido'] : ''); ?>">
 
             <label for="carrera">Carrera</label>
             <select id="carrera" name="carrera" required>
                 <option value="">-- Seleccioná tu carrera --</option>
-                <?php foreach ($carreras as $c): ?>
-                    <option value="<?php echo htmlspecialchars($c); ?>"
-                        <?php echo (($_POST['carrera'] ?? '') === $c) ? 'selected' : ''; ?>>
-                        <?php echo htmlspecialchars($c); ?>
+                <?php foreach ($carreras as $opcion): ?>
+                    <option value="<?php echo htmlspecialchars($opcion); ?>"
+                        <?php echo ((isset($_POST['carrera']) ? $_POST['carrera'] : '') === $opcion) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($opcion); ?>
                     </option>
                 <?php endforeach; ?>
             </select>
 
             <label for="nro_matricula">Nro. de Matrícula</label>
             <input type="text" id="nro_matricula" name="nro_matricula" required
-                   value="<?php echo htmlspecialchars($_POST['nro_matricula'] ?? ''); ?>">
+                   value="<?php echo htmlspecialchars(isset($_POST['nro_matricula']) ? $_POST['nro_matricula'] : ''); ?>">
 
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required
-                   value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
+                   value="<?php echo htmlspecialchars(isset($_POST['email']) ? $_POST['email'] : ''); ?>">
 
             <label for="telefono">Teléfono</label>
             <input type="text" id="telefono" name="telefono" required
-                   value="<?php echo htmlspecialchars($_POST['telefono'] ?? ''); ?>">
+                   value="<?php echo htmlspecialchars(isset($_POST['telefono']) ? $_POST['telefono'] : ''); ?>">
 
             <button type="submit">Enviar solicitud</button>
 

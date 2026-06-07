@@ -18,3 +18,6 @@ CREATE TABLE IF NOT EXISTS administradores (
     usuario VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL
 );
+
+INSERT IGNORE INTO administradores (usuario, password)
+VALUES ('admin', '$2y$10$Ns/JrGTgaugCYr8.a8oYjuluZRkBQ4aB4aC37hXRGnZ.CdIbvTCNq');

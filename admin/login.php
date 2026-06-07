@@ -11,20 +11,20 @@ require_once '../includes/db.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario = trim($_POST['usuario'] ?? '');
-    $pass    = trim($_POST['password'] ?? '');
+    $usuario = trim(isset($_POST['usuario'])  ? $_POST['usuario']  : '');
+    $clave   = trim(isset($_POST['password']) ? $_POST['password'] : '');
 
-    if ($usuario === '' || $pass === '') {
+    if ($usuario === '' || $clave === '') {
         $error = "Completá usuario y contraseña.";
     } else {
-        $stmt = mysqli_prepare($conexion, "SELECT id, password FROM administradores WHERE usuario = ?");
-        mysqli_stmt_bind_param($stmt, 's', $usuario);
-        mysqli_stmt_execute($stmt);
-        $resultado = mysqli_stmt_get_result($stmt);
+        $consulta = mysqli_prepare($conexion, "SELECT id, password FROM administradores WHERE usuario = ?");
+        mysqli_stmt_bind_param($consulta, 's', $usuario);
+        mysqli_stmt_execute($consulta);
+        $resultado = mysqli_stmt_get_result($consulta);
         $admin = mysqli_fetch_assoc($resultado);
-        mysqli_stmt_close($stmt);
+        mysqli_stmt_close($consulta);
 
-        if ($admin && password_verify($pass, $admin['password'])) {
+        if ($admin && password_verify($clave, $admin['password'])) {
             $_SESSION['admin_id']      = $admin['id'];
             $_SESSION['admin_usuario'] = $usuario;
             header('Location: panel.php');

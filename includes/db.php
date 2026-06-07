@@ -5,10 +5,10 @@ error_reporting(0);
 
 $host     = 'localhost';
 $usuario  = 'root';
-$password = '';
+$clave_bd = '';
 $base     = 'egresados_db';
 
-$conexion = mysqli_connect($host, $usuario, $password, $base);
+$conexion = mysqli_connect($host, $usuario, $clave_bd, $base);
 
 if (!$conexion) {
     die("Error de conexión con la base de datos.");
