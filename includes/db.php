@@ -1,4 +1,8 @@
 <?php
+// Ocultar errores de PHP al usuario (Unidad 3 - Manejo de errores)
+ini_set('display_errors', 0);
+error_reporting(0);
+
 $host     = 'localhost';
 $usuario  = 'root';
 $password = '';
