@@ -48,5 +48,5 @@ if ($accion === 'aprobar') {
 }
 
 mysqli_close($conexion);
-header('Location: panel.php');
+header('Location: panel.php?mensaje=' . $estado);
 exit;

@@ -54,6 +54,10 @@ mysqli_close($conexion);
 </head>
 <body>
 
+    <p style="text-align: center; margin-bottom: 20px;">
+        <a href="../index.php" style="color: #7f8c8d; text-decoration: none; font-size: 0.9em;">← Volver a la página pública</a>
+    </p>
+
     <h1>Panel de Administración</h1>
 
     <?php if ($error !== ''): ?>

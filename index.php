@@ -80,6 +80,9 @@ mysqli_close($conexion);
             <strong>¡Solicitud enviada correctamente!</strong><br>
             Tu solicitud quedó registrada y será revisada por un administrador.
         </div>
+        <a href="index.php">
+            <button style="margin-top: 16px; padding: 10px 20px; background-color: #2c3e50; color: white; border: none; border-radius: 4px; cursor: pointer;">Cargar otro egresado</button>
+        </a>
     <?php else: ?>
 
         <?php if (!empty($errores)): ?>
@@ -130,6 +133,10 @@ mysqli_close($conexion);
         </form>
 
     <?php endif; ?>
+
+    <p style="margin-top: 40px; text-align: center; font-size: 0.85em;">
+        <a href="admin/login.php" style="color: #aaa; text-decoration: none;">Acceso administración</a>
+    </p>
 
 </body>
 </html>

@@ -64,10 +64,12 @@ mysqli_close($conexion);
     <h1>Cambiar Contraseña</h1>
 
     <nav>
+        <a href="../index.php">← Página pública</a>
         <a href="panel.php">Solicitudes pendientes</a>
         <a href="egresados.php">Listado de egresados</a>
         <a href="cambiar_pass.php">Cambiar contraseña</a>
         <a href="logout.php">Cerrar sesión</a>
+        <span style="float:right; color: #7f8c8d; font-size: 0.9em; margin-top: 2px;">Bienvenido, <?php echo htmlspecialchars($_SESSION['admin_usuario']); ?></span>
     </nav>
 
     <?php if ($exito): ?>
